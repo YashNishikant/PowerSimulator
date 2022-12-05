@@ -24,7 +24,7 @@ public class PlayerAbilities : MonoBehaviour
     {
         weaponObtain(sw);
         if(transform.position.y < minheight)
-        StartCoroutine("teleport");
+            StartCoroutine("teleport");
     }
 
     IEnumerator teleport() {
@@ -37,7 +37,7 @@ public class PlayerAbilities : MonoBehaviour
 
     void weaponObtain(GameObject weapon) {
 
-        direction = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z) - new Vector3(weapon.transform.position.x, weapon.transform.position.y, weapon.transform.position.z);
+        direction = transform.position + new Vector3(0, 0.25f, 0) - weapon.transform.position;
         if (Input.GetKey(KeyCode.E) && !FindObjectOfType<SwordBehavior>().parented)
         {
             Destroy(weapon.GetComponent<Rigidbody>());
@@ -51,7 +51,7 @@ public class PlayerAbilities : MonoBehaviour
             weapon.transform.rotation = cam.transform.rotation * Quaternion.Euler(90f, 0f, 0f);
             
             calling = true;
-            weapon.transform.position += direction * Time.deltaTime * speed;
+            weapon.transform.position += direction.normalized * Time.deltaTime * speed;
             speedchange += 0.1f;
         }
         else if (weapon.GetComponent<Rigidbody>() == null && !FindObjectOfType<SwordBehavior>().parented)

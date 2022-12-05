@@ -17,8 +17,15 @@ public class SwordBehavior : MonoBehaviour
     public CharacterController c;
     public bool tpActive;
     public float speed;
-    int x = 0;
+    public Material[] material;
+    Renderer rend;
 
+    private void Start()
+    {
+        rend = transform.GetChild(2).GetComponent<Renderer>();
+        rend.enabled = true;
+        rend.sharedMaterial = material[0];
+    }
 
     void Update()
     {
@@ -29,18 +36,17 @@ public class SwordBehavior : MonoBehaviour
     }
 
     void changesword() {
-        x++;
-        if(x > 25) { 
-            if (Input.GetKey(KeyCode.R) && parented){
-                tpActive = !tpActive;
-                x = 0;
-            }
+        if (Input.GetKeyDown(KeyCode.R) && parented){
+            tpActive = !tpActive;
         }
-
-        if (x > 999999999) {
-            x = 0;
+        if (tpActive)
+        {
+            rend.sharedMaterial = material[0];
         }
-
+        else
+        {
+            rend.sharedMaterial = material[1];
+        }
     }
 
     void teleport()
@@ -65,9 +71,7 @@ public class SwordBehavior : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.up, out hit, 5))
         {
             if (hit.transform.tag == "enemy" && shoot) {
-                hit.transform.gameObject.GetComponent<AirEnemyBehavior>().tearapart();
-                hit.transform.gameObject.GetComponent<AirEnemyBehavior>().enabled = false;
-                hit.transform.gameObject.GetComponent<AirEnemyBehavior>().killDrone(hit.point);
+
             }
             
         }
@@ -78,8 +82,7 @@ public class SwordBehavior : MonoBehaviour
             {
                 if (manualhit.transform.tag == "enemy")
                 {
-                    hit.transform.gameObject.AddComponent<Rigidbody>();
-                    hit.transform.gameObject.GetComponent<AirEnemyBehavior>().enabled = false;
+
                 }
             }
         }
