@@ -1159,7 +1159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sw: {fileID: 247663566}
   telepad: {fileID: 0}
-  speed: 30
+  speed: 600
   calling: 0
   speedchange: 0
   cam: {fileID: 963194227}
